@@ -1,149 +1,148 @@
 'use strict';
 
 /**
- * Returns the array of 32 compass points and heading.
- * See details here:
- * https://en.wikipedia.org/wiki/Points_of_the_compass#32_cardinal_points
+ * Returns the bank account number parsed from specified string.
  *
- * @return {array}
+ * You work for a bank, which has recently purchased an ingenious machine to assist in reading letters and faxes sent in by branch offices.
+ * The machine scans the paper documents, and produces a string with a bank account that looks like this:
+ *
+ *    _  _     _  _  _  _  _
+ *  | _| _||_||_ |_   ||_||_|
+ *  ||_  _|  | _||_|  ||_| _|
+ *
+ * Each string contains an account number written using pipes and underscores.
+ * Each account number should have 9 digits, all of which should be in the range 0-9.
+ *
+ * Your task is to write a function that can take bank account string and parse it into actual account numbers.
+ *
+ * @param {string} bankAccount
+ * @return {number}
  *
  * Example of return :
- *  [
- *     { abbreviation : 'N',     azimuth : 0.00 ,
- *     { abbreviation : 'NbE',   azimuth : 11.25 },
- *     { abbreviation : 'NNE',   azimuth : 22.50 },
- *       ...
- *     { abbreviation : 'NbW',   azimuth : 348.75 }
- *  ]
+ *
+ *   '    _  _     _  _  _  _  _ \n'+
+ *   '  | _| _||_||_ |_   ||_||_|\n'+     =>  123456789
+ *   '  ||_  _|  | _||_|  ||_| _|\n'
+ *
+ *   ' _  _  _  _  _  _  _  _  _ \n'+
+ *   '| | _| _|| ||_ |_   ||_||_|\n'+     => 23056789
+ *   '|_||_  _||_| _||_|  ||_| _|\n',
+ *
+ *   ' _  _  _  _  _  _  _  _  _ \n'+
+ *   '|_| _| _||_||_ |_ |_||_||_|\n'+     => 823856989
+ *   '|_||_  _||_| _||_| _||_| _|\n',
+ *
  */
-function createCompassPoints() {
+function parseBankAccount(bankAccount) {
     throw new Error('Not implemented');
-    var sides = ['N','E','S','W'];  // use array of cardinal directions only!
 }
 
 
 /**
- * Expand the braces of the specified string.
- * See https://en.wikipedia.org/wiki/Bash_(Unix_shell)#Brace_expansion
+ * Returns the string, but with line breaks inserted at just the right places to make sure that no line is longer than the specified column number.
+ * Lines can be broken at word boundaries only.
  *
- * In the input string, balanced pairs of braces containing comma-separated substrings
- * represent alternations that specify multiple alternatives which are to appear at that position in the output.
- *
- * @param {string} str
+ * @param {string} text
+ * @param {number} columns
  * @return {Iterable.<string>}
  *
- * NOTE: The order of output string does not matter.
+ * @example :
  *
- * Example:
- *   '~/{Downloads,Pictures}/*.{jpg,gif,png}'  => '~/Downloads/*.jpg',
- *                                                '~/Downloads/*.gif'
- *                                                '~/Downloads/*.png',
- *                                                '~/Pictures/*.jpg',
- *                                                '~/Pictures/*.gif',
- *                                                '~/Pictures/*.png'
+ *  'The String global object is a constructor for strings, or a sequence of characters.', 26 =>  'The String global object',
+ *                                                                                                'is a constructor for',
+ *                                                                                                'strings, or a sequence of',
+ *                                                                                                'characters.'
  *
- *   'It{{em,alic}iz,erat}e{d,}, please.'  => 'Itemized, please.',
- *                                            'Itemize, please.',
- *                                            'Italicized, please.',
- *                                            'Italicize, please.',
- *                                            'Iterated, please.',
- *                                            'Iterate, please.'
- *
- *   'thumbnail.{png,jp{e,}g}'  => 'thumbnail.png'
- *                                 'thumbnail.jpeg'
- *                                 'thumbnail.jpg'
- *
- *   'nothing to do' => 'nothing to do'
+ *  'The String global object is a constructor for strings, or a sequence of characters.', 12 =>  'The String',
+ *                                                                                                'global',
+ *                                                                                                'object is a',
+ *                                                                                                'constructor',
+ *                                                                                                'for strings,',
+ *                                                                                                'or a',
+ *                                                                                                'sequence of',
+ *                                                                                                'characters.'
  */
-function* expandBraces(str) {
+function* wrapText(text, columns) {
     throw new Error('Not implemented');
 }
 
 
 /**
- * Returns the ZigZag matrix
+ * Returns the rank of the specified poker hand.
+ * See the ranking rules here: https://en.wikipedia.org/wiki/List_of_poker_hands.
  *
- * The fundamental idea in the JPEG compression algorithm is to sort coefficient of given image by zigzag path and encode it.
- * In this task you are asked to implement a simple method to create a zigzag square matrix.
- * See details at https://en.wikipedia.org/wiki/JPEG#Entropy_coding
- * and zigzag path here: https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/JPEG_ZigZag.svg/220px-JPEG_ZigZag.svg.png
- *
- * @param {number} n - matrix dimension
- * @return {array}  n x n array of zigzag path
+ * @param {array} hand
+ * @return {PokerRank} rank
  *
  * @example
- *   1  => [[0]]
- *
- *   2  => [[ 0, 1 ],
- *          [ 2, 3 ]]
- *
- *         [[ 0, 1, 5 ],
- *   3  =>  [ 2, 4, 6 ],
- *          [ 3, 7, 8 ]]
- *
- *         [[ 0, 1, 5, 6 ],
- *   4 =>   [ 2, 4, 7,12 ],
- *          [ 3, 8,11,13 ],
- *          [ 9,10,14,15 ]]
- *
+ *   [ '4♥','5♥','6♥','7♥','8♥' ] => PokerRank.StraightFlush
+ *   [ 'A♠','4♠','3♠','5♠','2♠' ] => PokerRank.StraightFlush
+ *   [ '4♣','4♦','4♥','4♠','10♥' ] => PokerRank.FourOfKind
+ *   [ '4♣','4♦','5♦','5♠','5♥' ] => PokerRank.FullHouse
+ *   [ '4♣','5♣','6♣','7♣','Q♣' ] => PokerRank.Flush
+ *   [ '2♠','3♥','4♥','5♥','6♥' ] => PokerRank.Straight
+ *   [ '2♥','4♦','5♥','A♦','3♠' ] => PokerRank.Straight
+ *   [ '2♥','2♠','2♦','7♥','A♥' ] => PokerRank.ThreeOfKind
+ *   [ '2♥','4♦','4♥','A♦','A♠' ] => PokerRank.TwoPairs
+ *   [ '3♥','4♥','10♥','3♦','A♠' ] => PokerRank.OnePair
+ *   [ 'A♥','K♥','Q♥','2♦','3♠' ] =>  PokerRank.HighCard
  */
-function getZigZagMatrix(n) {
+const PokerRank = {
+    StraightFlush: 8,
+    FourOfKind: 7,
+    FullHouse: 6,
+    Flush: 5,
+    Straight: 4,
+    ThreeOfKind: 3,
+    TwoPairs: 2,
+    OnePair: 1,
+    HighCard: 0
+}
+
+function getPokerHandRank(hand) {
     throw new Error('Not implemented');
 }
 
 
 /**
- * Returns true if specified subset of dominoes can be placed in a row accroding to the game rules.
- * Dominoes details see at: https://en.wikipedia.org/wiki/Dominoes
+ * Returns the rectangles sequence of specified figure.
+ * The figure is ASCII multiline string comprised of minus signs -, plus signs +, vertical bars | and whitespaces.
+ * The task is to break the figure in the rectangles it is made of.
  *
- * Each domino tile presented as an array [x,y] of tile value.
- * For example, the subset [1, 1], [2, 2], [1, 2] can be arranged in a row (as [1, 1] followed by [1, 2] followed by [2, 2]),
- * while the subset [1, 1], [0, 3], [1, 4] can not be arranged in one row.
- * NOTE that as in usual dominoes playing any pair [i, j] can also be treated as [j, i].
- *
- * @params {array} dominoes
- * @return {bool}
- *
+ * NOTE: The order of rectanles does not matter.
+ * 
+ * @param {string} figure
+ * @return {Iterable.<string>} decomposition to basic parts
+ * 
  * @example
  *
- * [[0,1],  [1,1]] => true
- * [[1,1], [2,2], [1,5], [5,6], [6,3]] => false
- * [[1,3], [2,3], [1,4], [2,4], [1,5], [2,5]]  => true
- * [[0,0], [0,1], [1,1], [0,2], [1,2], [2,2], [0,3], [1,3], [2,3], [3,3]] => false
+ *    '+------------+\n'+
+ *    '|            |\n'+
+ *    '|            |\n'+              '+------------+\n'+
+ *    '|            |\n'+              '|            |\n'+         '+------+\n'+          '+-----+\n'+
+ *    '+------+-----+\n'+       =>     '|            |\n'+     ,   '|      |\n'+     ,    '|     |\n'+
+ *    '|      |     |\n'+              '|            |\n'+         '|      |\n'+          '|     |\n'+
+ *    '|      |     |\n'               '+------------+\n'          '+------+\n'           '+-----+\n'
+ *    '+------+-----+\n'
  *
+ *
+ *
+ *    '   +-----+     \n'+
+ *    '   |     |     \n'+                                    '+-------------+\n'+
+ *    '+--+-----+----+\n'+              '+-----+\n'+          '|             |\n'+
+ *    '|             |\n'+      =>      '|     |\n'+     ,    '|             |\n'+
+ *    '|             |\n'+              '+-----+\n'           '+-------------+\n'
+ *    '+-------------+\n'
  */
-function canDominoesMakeRow(dominoes) {
+function* getFigureRectangles(figure) {
     throw new Error('Not implemented');
 }
 
-
-/**
- * Returns the string expression of the specified ordered list of integers.
- *
- * A format for expressing an ordered list of integers is to use a comma separated list of either:
- *   - individual integers
- *   - or a range of integers denoted by the starting integer separated from the end integer in the range by a dash, '-'.
- *     (The range includes all integers in the interval including both endpoints)
- *     The range syntax is to be used only for, and for every range that expands to more than two values.
- *
- * @params {array} nums
- * @return {bool}
- *
- * @example
- *
- * [ 0, 1, 2, 3, 4, 5 ]   => '0-5'
- * [ 1, 4, 5 ]            => '1,4,5'
- * [ 0, 1, 2, 5, 7, 8, 9] => '0-2,5,7-9'
- * [ 1, 2, 4, 5]          => '1,2,4,5'
- */
-function extractRanges(nums) {
-    throw new Error('Not implemented');
-}
 
 module.exports = {
-    createCompassPoints : createCompassPoints,
-    expandBraces : expandBraces,
-    getZigZagMatrix : getZigZagMatrix,
-    canDominoesMakeRow : canDominoesMakeRow,
-    extractRanges : extractRanges
+    parseBankAccount: parseBankAccount,
+    wrapText: wrapText,
+    PokerRank: PokerRank,
+    getPokerHandRank: getPokerHandRank,
+    getFigureRectangles: getFigureRectangles
 };
